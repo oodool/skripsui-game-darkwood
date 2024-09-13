@@ -21,4 +21,6 @@ public class Mouse : MonoBehaviour
         var worldPosition = Camera.main.ScreenToWorldPoint(mouse);
         transform.position = Vector2.Lerp(player.transform.position, worldPosition, sens);
     }
+
+    ////markiplier
 }

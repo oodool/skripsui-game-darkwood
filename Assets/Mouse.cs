@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class Mouse : MonoBehaviour
 {
+    public ObjectDetector hand;
     public GameObject player;
     private Vector2 mouse;
     private Controller playerController;
@@ -21,7 +22,7 @@ public class Mouse : MonoBehaviour
     {
         mouse = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
 
-        var worldPosition = Camera.main.ScreenToWorldPoint(mouse);
+        var worldPosition = playerController.useHand ? Camera.main.ScreenToWorldPoint(hand.BoundingBoxesMidpoint()) : Camera.main.ScreenToWorldPoint(mouse);
         transform.position = Vector2.Lerp(player.transform.position, worldPosition, sens);
     }
 

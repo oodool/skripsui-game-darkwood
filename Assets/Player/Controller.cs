@@ -24,6 +24,8 @@ namespace Player
         private Vector2 _direction;
         private Vector2 _mouse;
 
+        public ObjectDetector hand;
+
         public bool useHand;
 
         private bool isFlickering = false;
@@ -43,7 +45,7 @@ namespace Player
 
         private void Update()
         {
-            var worldPosition = camera.ScreenToWorldPoint(_mouse);
+            var worldPosition = useHand == true ? camera.ScreenToWorldPoint(hand.BoundingBoxesMidpoint()) : camera.ScreenToWorldPoint(_mouse);
             var playerPosition = transform.position;
 
             transform.rotation = Quaternion.LookRotation(

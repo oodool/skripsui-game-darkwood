@@ -40,8 +40,9 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-    // public void SetControl()
-    // {
-    //     PlayerPrefs.SetString("Control", );
-    // }
+    public void SetControl(string control)
+    {
+        PlayerPrefs.SetString("Control", control);
+        fade.TransitionToScene("tutorial");
+    }
 }

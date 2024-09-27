@@ -36,6 +36,9 @@ namespace Player
             flashlight.SetActive(false);
             _rigidbody = GetComponent<Rigidbody2D>();
             anim = GetComponent<Animator>();
+
+            if (PlayerPrefs.GetString("Control") == "hand") useHand = true;
+            if (PlayerPrefs.GetString("Control") == "mouse") useHand = false;
         }
 
         private void FixedUpdate()
@@ -48,10 +51,13 @@ namespace Player
             var worldPosition = useHand == true ? camera.ScreenToWorldPoint(hand.BoundingBoxesMidpoint()) : camera.ScreenToWorldPoint(_mouse);
             var playerPosition = transform.position;
 
-            transform.rotation = Quaternion.LookRotation(
+            if(Time.timeScale != 0)
+            {
+                transform.rotation = Quaternion.LookRotation(
                 Vector3.forward,
                 worldPosition - playerPosition
             );
+            }
 
             anim.SetBool("isWalking", false);
 

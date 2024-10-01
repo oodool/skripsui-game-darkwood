@@ -10,6 +10,13 @@ public class PlayerHealth : MonoBehaviour
     public float maxHealth = 100f;
     public float currentHealth;
     private Vignette vignette;
+    public AudioSource audioSource;  // AudioSource untuk memutar suara serangan
+    public AudioClip hitClip;        // AudioClip untuk suara saat terkena serangan
+
+    public AudioClip lowHpClip;      // Suara untuk low HP
+    public AudioClip fastBeatClip;   // Suara untuk fast beat
+    private bool isLowHpPlaying = false;
+    private bool isFastBeatPlaying = false;
 
     private float originalIntensity;
     private float flashIntensity = 1f; // Intensity for the flash
@@ -23,6 +30,10 @@ public class PlayerHealth : MonoBehaviour
     private float timerShake;
     public float normalShake = 1f;
     public float targetShake = 3f;
+
+    // Additional AudioSource for low HP and fast beat sounds
+    public AudioSource lowHpAudioSource;
+    public AudioSource fastBeatAudioSource;
 
     void Start()
     {
@@ -63,6 +74,7 @@ public class PlayerHealth : MonoBehaviour
             vignette.intensity.value = originalIntensity; // Reset to original intensity
         }
 
+        // Handle screen shake
         if (timerShake > 0)
         {
             timerShake -= Time.deltaTime;
@@ -76,17 +88,47 @@ public class PlayerHealth : MonoBehaviour
             perlin.m_FrequencyGain = normalShake; // Reset to original intensity
         }
 
+        // Handle Low HP and Fast Beat sound transitions
+        if (currentHealth < 20 && !isFastBeatPlaying)
+        {
+            // Stop low HP sound and start fast beat sound
+            StopLowHpSound();
+            PlayFastBeatSound();
+        }
+        else if (currentHealth >= 20 && currentHealth < 50 && !isLowHpPlaying)
+        {
+            // Stop fast beat sound and play low HP sound
+            StopFastBeatSound();
+            PlayLowHpSound();
+        }
+
+        // Handle Fast Beat sound
+        if (currentHealth < 20 && !isFastBeatPlaying)
+        {
+            PlayFastBeatSound();
+        }
+        else if (currentHealth >= 20 && isFastBeatPlaying)
+        {
+            StopFastBeatSound();
+        }
+
         // Optionally, scale color based on health
         UpdateVignetteColor();
 
-        /// health regen
-        if(currentHealth <= maxHealth) currentHealth += 0.05f;
+        // Health regen (optional)
+        if (currentHealth <= maxHealth) currentHealth += 0.1f;
     }
 
     void TakeDamage(float damageAmount)
     {
         currentHealth -= damageAmount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        // Mainkan suara saat terkena serangan
+        if (hitClip != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(hitClip);
+        }
 
         // Trigger the vignette flash
         FlashVignette();
@@ -111,8 +153,49 @@ public class PlayerHealth : MonoBehaviour
     private void ShakeCamera()
     {
         timerShake = durationShake;
-        
+
         perlin.m_AmplitudeGain = targetShake;
         perlin.m_FrequencyGain = targetShake;
+    }
+
+    private void PlayLowHpSound()
+    {
+        if (lowHpClip != null && lowHpAudioSource != null)
+        {
+            lowHpAudioSource.clip = lowHpClip;
+            lowHpAudioSource.loop = true; // Loop the sound
+            lowHpAudioSource.Play();
+            isLowHpPlaying = true;
+        }
+    }
+
+    private void StopLowHpSound()
+    {
+        if (lowHpAudioSource != null && lowHpAudioSource.isPlaying)
+        {
+            lowHpAudioSource.Stop();
+            isLowHpPlaying = false;
+        }
+    }
+
+    private void PlayFastBeatSound()
+    {
+        if (fastBeatClip != null && fastBeatAudioSource != null)
+        {
+            fastBeatAudioSource.clip = fastBeatClip;
+            fastBeatAudioSource.loop = true; // Loop the sound
+            fastBeatAudioSource.Play();
+            isFastBeatPlaying = true;
+        }
+    }
+
+    private void StopFastBeatSound()
+    {
+        if (fastBeatAudioSource != null && fastBeatAudioSource.isPlaying)
+        {
+            fastBeatAudioSource.Stop();
+            isFastBeatPlaying = false;
+            fastBeatAudioSource.pitch = 1f; // Reset pitch to normal
+        }
     }
 }

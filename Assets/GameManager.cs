@@ -104,6 +104,7 @@ public class GameManager : MonoBehaviour
         blurEffect.active = true;         // Enable the blur effect
         Time.timeScale = 0f;              // Pause the game
         isPaused = true;
+        Cursor.visible = true;
     }
 
     public void ResumeGame()
@@ -112,6 +113,7 @@ public class GameManager : MonoBehaviour
         blurEffect.active = false;        // Disable the blur effect
         Time.timeScale = 1f;              // Resume the game
         isPaused = false;
+        Cursor.visible = false;
     }
 
     public void ExitGame()

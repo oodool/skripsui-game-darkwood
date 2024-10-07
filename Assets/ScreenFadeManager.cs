@@ -20,13 +20,16 @@ public class SceneTransition : MonoBehaviour
 
     private IEnumerator FadeToBlackAndLoadScene(string sceneName)
     {
+        fadeImage.raycastTarget = true;
         yield return StartCoroutine(Fade(0f, 1f)); // Fade to black
-        SceneManager.LoadScene(sceneName); // Load new scene
+        if(sceneName == "main menu") Application.Quit();
+        else SceneManager.LoadScene(sceneName); // Load new scene
     }
 
     private IEnumerator FadeFromBlack()
     {
         yield return StartCoroutine(Fade(1f, 0f)); // Fade from black to transparent
+        fadeImage.raycastTarget = false;
     }
 
     private IEnumerator Fade(float startAlpha, float endAlpha)

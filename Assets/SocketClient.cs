@@ -35,7 +35,7 @@ public class SocketClient : MonoBehaviour
     {
         try
         {
-            client = new TcpClient("localhost", 12345);  // Change to server IP if needed
+            client = new TcpClient("localhost", 54321);  // Change to server IP if needed
             stream = client.GetStream();
             Debug.Log("Connected to Python server.");
         }

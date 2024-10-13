@@ -101,6 +101,10 @@ public class PlayerHealth : MonoBehaviour
             StopFastBeatSound();
             PlayLowHpSound();
         }
+        else if (currentHealth >= 50)
+        {
+            StopLowHpSound();
+        }
 
         // Handle Fast Beat sound
         if (currentHealth < 20 && !isFastBeatPlaying)
@@ -124,12 +128,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damageAmount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        // Mainkan suara saat terkena serangan
-        if (hitClip != null && audioSource != null)
-        {
-            audioSource.PlayOneShot(hitClip);
-        }
-
+        audioSource.PlayOneShot(hitClip);
         // Trigger the vignette flash
         FlashVignette();
 

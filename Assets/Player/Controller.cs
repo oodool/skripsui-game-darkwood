@@ -13,7 +13,7 @@ namespace Player
         public float stepInterval = 0.5f;    // Time between steps
         public float minPitch = 0.9f;        // Minimum pitch variation
         public float maxPitch = 1.1f;        // Maximum pitch variation
-        private float stepTimer = 0f;
+        public float stepTimer = 0f;
 
         [SerializeField] private float speed = 10;
         [SerializeField] private float damping = 4;
@@ -61,7 +61,7 @@ namespace Player
 
                 if (stepTimer <= 0f)
                 {
-                    PlayAudio(0, 0.8f);
+                    PlayAudio(0, 1f);
                     stepTimer = stepInterval;  // Reset the timer
                 }
             }
@@ -125,7 +125,9 @@ namespace Player
             // Randomize the pitchs
             audioSource.pitch = Random.Range(minPitch, maxPitch);
             audioSource.volume = volume;
-            audioSource.PlayOneShot(audioClips[audioIndex]);   // Play the sound
+            audioSource.clip = audioClips[audioIndex];
+
+            audioSource.Play();   // Play the sound
         }
     }
 }

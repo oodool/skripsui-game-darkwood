@@ -1,5 +1,17 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream
+<<<<<<<< Updated upstream:Assets/damage player.mp3.meta
 guid: e608cd04da5e395409d89f21dcaff415
+========
+guid: fffd51c5dc6b76644873b16bf49d48b8
+>>>>>>>> Stashed changes:Assets/bgm-menu.mp3.meta
+=======
+<<<<<<<< Updated upstream:Assets/bgm-menu.mp3.meta
+guid: fffd51c5dc6b76644873b16bf49d48b8
+========
+guid: 8b5112474fe5ba242a70a2e7392cced7
+>>>>>>>> Stashed changes:Assets/damage player.mp3.meta
+>>>>>>> Stashed changes
 AudioImporter:
   externalObjects: {}
   serializedVersion: 7

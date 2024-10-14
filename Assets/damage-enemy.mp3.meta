@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< Updated upstream:Assets/damage-enemy.mp3.meta
 guid: cb07785c9aa6f2a42bbe608610dbd502
+========
+guid: f05df8d9c7c0f94428e8fd34dc43f54e
+>>>>>>>> Stashed changes:Assets/click-button-131479.mp3.meta
 AudioImporter:
   externalObjects: {}
   serializedVersion: 7

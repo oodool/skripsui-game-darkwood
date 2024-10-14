@@ -66,4 +66,41 @@ public class GameManager : MonoBehaviour
     {
         Destroy(endDoor);
     }
+<<<<<<< Updated upstream:Assets/GameManager.cs
+=======
+
+    public void PauseGame()
+    {
+        pauseScreen.SetActive(true);      // Show the pause menu
+        blurEffect.active = true;         // Enable the blur effect
+        Time.timeScale = 0f;              // Pause the game
+        isPaused = true;
+        Cursor.visible = true;
+    }
+
+    public void ResumeGame()
+    {
+        pauseScreen.SetActive(false);     // Hide the pause menu
+        blurEffect.active = false;        // Disable the blur effect
+        Time.timeScale = 1f;              // Resume the game
+        isPaused = false;
+        Cursor.visible = false;
+    }
+
+    public void ExitGame()
+    {
+        confirmExit.SetActive(true);
+    }
+
+    public void ExitConfirm()
+    {
+        Time.timeScale = 1f;
+        fade.TransitionToScene("main menu");
+    }
+
+    public void CancelExit()
+    {
+        confirmExit.SetActive(false);
+    }
+>>>>>>> Stashed changes:Assets/Scripts/GameManager.cs
 }

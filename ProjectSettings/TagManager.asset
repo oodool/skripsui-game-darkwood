@@ -51,3 +51,6 @@ TagManager:
   - name: Entities
     uniqueID: 68400515
     locked: 0
+  - name: Splatter
+    uniqueID: 3151565
+    locked: 0

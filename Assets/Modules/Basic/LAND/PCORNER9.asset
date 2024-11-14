@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b52706175f8f5b48b0efe34527adabd, type: 3}
+  m_Name: PCORNER9
+  m_EditorClassIdentifier: 
+  weight: 40
+  moduleGO: {fileID: 8088887402400097740, guid: 661d6d9fbacba734180366f0a543c66c, type: 3}
+  edgeConnections: 0100000001000000190000001b000000

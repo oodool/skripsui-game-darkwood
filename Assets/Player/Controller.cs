@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using System.Xml.Serialization;
+using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEngine.SearchService;
+using System.Linq;
 
 namespace Player
 {
@@ -8,8 +12,13 @@ namespace Player
     {
         Animator anim;
 
+        public string[] flashlightGestures;
+
+        public RectTransform crosshair;     // Reference to the crosshair UI element
+
         private AudioSource audioSource;   // Assign the AudioSource from the inspector
         public AudioClip[] audioClips;    // Array of footstep sounds
+         
         public float stepInterval = 0.5f;    // Time between steps
         public float minPitch = 0.9f;        // Minimum pitch variation
         public float maxPitch = 1.1f;        // Maximum pitch variation
@@ -30,12 +39,19 @@ namespace Player
 
         private bool isFlickering = false;
 
+        private bool checkFlashlight = false;
+
         private void Awake()
         {   
+            // Hide the default system cursor
+            Cursor.visible = false;
+
             audioSource = gameObject.GetComponent<AudioSource>();
             flashlight.SetActive(false);
             _rigidbody = GetComponent<Rigidbody2D>();
             anim = GetComponent<Animator>();
+
+            Debug.Log(PlayerPrefs.GetString("Control"));
 
             if (PlayerPrefs.GetString("Control") == "hand") useHand = true;
             if (PlayerPrefs.GetString("Control") == "mouse") useHand = false;
@@ -59,9 +75,15 @@ namespace Player
             );
             }
 
+            // Get the current mouse position
+            var cursorPos = camera.WorldToScreenPoint(worldPosition);
+
+            // Move the crosshair to the mouse position
+            if (Time.timeScale == 1f) crosshair.position = cursorPos;
+
             anim.SetBool("isWalking", false);
 
-            if (_direction != Vector2.zero)  // Check if moving
+            if (_direction != Vector2.zero)  // Check if moving 
             {
                 anim.SetBool("isWalking", true);
 
@@ -74,9 +96,19 @@ namespace Player
                 }
             }
 
-            if(Input.GetKeyDown(KeyCode.F))
+            if(Input.GetKeyDown(KeyCode.F) && !useHand)
             {
                 Flashlight();
+            }
+            
+            if (flashlightGestures.Contains(hand.ObjectLabel()) && useHand && !checkFlashlight)
+            {
+                Flashlight();
+                checkFlashlight = true;
+            } else if (!flashlightGestures.Contains(hand.ObjectLabel()) && useHand && checkFlashlight)
+            {
+                Flashlight();
+                checkFlashlight = false;
             }
 
             if(flashlight.activeSelf)
@@ -133,7 +165,9 @@ namespace Player
             // Randomize the pitchs
             audioSource.pitch = Random.Range(minPitch, maxPitch);
             audioSource.volume = volume;
-            audioSource.PlayOneShot(audioClips[audioIndex]);   // Play the sound
+            audioSource.clip = audioClips[audioIndex];
+
+            audioSource.Play();   // Play the sound
         }
     }
 }

@@ -37,6 +37,7 @@ public class Startup
 public class ObjectDetector : MonoBehaviour
 {
     private Vector2 lastHandCoordinate;
+    private string lastHandLabel = "palm";
 
     [Header("Scene Objects")]
     [Tooltip("The Screen object for the scene")]
@@ -634,7 +635,7 @@ public class ObjectDetector : MonoBehaviour
 
         // Add the halved length to the bounding box coordinates
         var bbMidpointx = objectInfoArray[0].x0 + halfWidth;
-        var bbMidpointy = objectInfoArray[0].y0 + halfHeight;
+        var bbMidpointy = objectInfoArray[0].y0 - halfHeight;
 
         var coord = new Vector2(bbMidpointx, bbMidpointy);
 
@@ -653,8 +654,10 @@ public class ObjectDetector : MonoBehaviour
         {
             return "No hand detected"; // or any other default value you prefer
         }
+        if (colormapList.items[objectInfoArray[0].label].label == "no_gesture") return lastHandLabel;
 
-        return colormapList.items[objectInfoArray[0].label].label;
+        lastHandLabel = colormapList.items[objectInfoArray[0].label].label;
+        return lastHandLabel;
     }
 
     void AttemptReconnect()
@@ -769,7 +772,7 @@ public class ObjectDetector : MonoBehaviour
         ScaleBoundingBoxes();
 
         // Find bounding box midpoint
-        Debug.Log(BoundingBoxesMidpoint());
+        // Debug.Log(BoundingBoxesMidpoint());
 
         // Find bounding box label
         Debug.Log(ObjectLabel());
